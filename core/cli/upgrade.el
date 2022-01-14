@@ -19,13 +19,13 @@ following shell commands:
      ((equal (replace-regexp-in-string
               "^\\(?:[^/]+/[^/]+/\\)?\\(.+\\)\\(?:~[0-9]+\\)?$" "\\1"
               (cdr (doom-call-process "git" "name-rev" "--name-only" "HEAD")))
-             "develop")
+             "develop-tmp")
       (print! (warn "Doom's primary branch has changed to 'master'. The develop branch will no\nlonger recieve updates and will eventually be deleted.\n"))
       (if (not (or force-p (y-or-n-p "Switch to the master branch?")))
           (error! "Aborting...")
         (print! (info "Switching to master branch"))
         (let ((remote
-               (cdr (doom-call-process "git" "config" "--get" "branch.develop.remote"))))
+               (cdr (doom-call-process "git" "config" "--get" "branch.develop-tmp.remote"))))
           (doom-call-process "git" "config" (format "remote.%s.fetch" remote) (format "+refs/heads/*:refs/remotes/%s/*" remote))
           (doom-call-process "git" "fetch" "--append" remote "master")
           (doom-call-process "git" "checkout" "--track" (format "%s/master" remote))
